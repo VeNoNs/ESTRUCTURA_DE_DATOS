@@ -4,34 +4,32 @@
  */
 package Controller;
 
-import Models.Acrededores;
+import Models.Usuario;
 
 /**
  *
  * @author Frank
  */
-public class ControllerAcrededores implements IControllerAcrededores{
+public class ServiciosAcceso implements IAccesoSistema{
 
     @Override
-    public void agregarAcreedor(Acrededores acreedor) {
+    public Usuario autenticar(String username, String password) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void editarAcreedor(Acrededores acreedor) {
+    public void registrarNuevoUsuario(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Acrededores buscarAcreedor(long ruc) {
+    public void cambiarContraseña(Usuario usuario, String nuevaContraseña) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminarAcreedor(long ruc) {
+    public void cerrarSesion(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-   
     
 }
