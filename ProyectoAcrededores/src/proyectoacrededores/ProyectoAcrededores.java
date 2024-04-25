@@ -4,6 +4,8 @@
  */
 package proyectoacrededores;
 
+import Views.Login;
+
 /**
  *
  * @author Frank
@@ -15,6 +17,8 @@ public class ProyectoAcrededores {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login abrir = new Login();
+        abrir.setVisible(true);
     }
     
 }
