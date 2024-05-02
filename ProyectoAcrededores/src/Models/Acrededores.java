@@ -10,7 +10,7 @@ package Models;
  */
 public class Acrededores {
 
-    private long ruc;
+    private String ruc;
     private String razonSocial;
     private String remypeDepartamento;
     private String remypeProvincia;
@@ -29,13 +29,15 @@ public class Acrededores {
     private String descEjecutora;
     private long observacionGlosa;
 
-    public long getRuc() {
+    public String getRuc() {
         return ruc;
     }
 
-    public void setRuc(long ruc) {
+    public void setRuc(String ruc) {
         this.ruc = ruc;
     }
+
+ 
 
     public String getRazonSocial() {
         return razonSocial;
