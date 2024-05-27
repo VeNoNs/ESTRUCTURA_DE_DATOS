@@ -101,6 +101,31 @@ public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
         }
         return false;
     }
+    
+    public T obtener(int posicion) {
+        if (posicion < 0 || posicion >= tamaño) {
+            throw new IndexOutOfBoundsException("Posición fuera de rango");
+        }
+
+        Nodo<T> actual = cabeza;
+        for (int i = 0; i < posicion; i++) {
+            actual = actual.getSiguiente();
+        }
+        return actual.getDato();
+    }
+
+    // Método para modificar el dato en una posición específica
+    public void modificar(int posicion, T nuevoDato) {
+        if (posicion < 0 || posicion >= tamaño) {
+            throw new IndexOutOfBoundsException("Posición fuera de rango");
+        }
+
+        Nodo<T> actual = cabeza;
+        for (int i = 0; i < posicion; i++) {
+            actual = actual.getSiguiente();
+        }
+        actual.setDato(nuevoDato);
+    }
 
     public int getTamaño() {
         return tamaño;

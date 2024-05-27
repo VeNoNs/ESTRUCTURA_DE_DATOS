@@ -10,4 +10,8 @@ package Models;
  */
 public class AdministradorSistema extends Usuario{
     
+    public AdministradorSistema(int idUsuario, String nombreUsuario, String contraseña) {
+        super(idUsuario, nombreUsuario, contraseña);
+    }
+    
 }

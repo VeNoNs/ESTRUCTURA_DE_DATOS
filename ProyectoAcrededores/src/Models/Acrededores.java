@@ -29,8 +29,6 @@ public class Acrededores {
     private String descEjecutora;
     private String observacionGlosa;
 
-    
-
     public Acrededores(String ruc, String razonSocial, String remypeDepartamento, String remypeProvincia, String remypeDistrito, String domicilioFiscal, String appInformaticoDemandas, String siaf, String estadoDeuda, String tipoDocumento, String docDevenOSentenJudi, double montoDeuda, String descNivelGobierno, String descSector, String descPliego, long secEjec, String descEjecutora, String observacionGlosa) {
         this.ruc = ruc;
         this.razonSocial = razonSocial;
@@ -196,8 +194,6 @@ public class Acrededores {
         this.observacionGlosa = observacionGlosa;
     }
 
-   
-
     public String toCSV() {
         return ruc + "," + razonSocial + "," + remypeDepartamento + "," + remypeProvincia + "," + remypeDistrito + ","
                 + domicilioFiscal + "," + appInformaticoDemandas + "," + siaf + "," + estadoDeuda + "," + tipoDocumento + ","
@@ -224,5 +220,29 @@ public class Acrededores {
                 + "Sec. Ejecución: " + secEjec + "\n"
                 + "Ejecutora: " + descEjecutora + "\n"
                 + "Observación Glosa: " + observacionGlosa + "\n\n";
+    }
+
+    @Override
+    public String toString() {
+        return "Acrededores{"
+                + "ruc='" + ruc + '\''
+                + ", razonSocial='" + razonSocial + '\''
+                + ", remypeDepartamento='" + remypeDepartamento + '\''
+                + ", remypeProvincia='" + remypeProvincia + '\''
+                + ", remypeDistrito='" + remypeDistrito + '\''
+                + ", domicilioFiscal='" + domicilioFiscal + '\''
+                + ", appInformaticoDemandas='" + appInformaticoDemandas + '\''
+                + ", siaf='" + siaf + '\''
+                + ", estadoDeuda='" + estadoDeuda + '\''
+                + ", tipoDocumento='" + tipoDocumento + '\''
+                + ", docDevenOSentenJudi='" + docDevenOSentenJudi + '\''
+                + ", montoDeuda=" + montoDeuda
+                + ", descNivelGobierno='" + descNivelGobierno + '\''
+                + ", descSector='" + descSector + '\''
+                + ", descPliego='" + descPliego + '\''
+                + ", secEjec='" + secEjec + '\''
+                + ", descEjecutora='" + descEjecutora + '\''
+                + ", observacionGlosa='" + observacionGlosa + '\''
+                + '}';
     }
 }

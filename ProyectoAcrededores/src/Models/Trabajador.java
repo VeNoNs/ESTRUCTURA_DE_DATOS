@@ -10,4 +10,8 @@ package Models;
  */
 public class Trabajador extends Usuario{
     
+    public Trabajador(int idUsuario, String nombreUsuario, String contraseña) {
+        super(idUsuario, nombreUsuario, contraseña);
+    }
+    
 }

@@ -9,6 +9,10 @@ import Controller.ImplListaEnlazada;
 import Interfaces.IControllerAcrededores;
 import Models.Acrededores;
 import Models.Nodo;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,62 +26,103 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
      * Creates new form Consulta_Acreedores
      */
     IControllerAcrededores controllerAcrededores = new ControllerAcrededores();
+    private ImplListaEnlazada<Acrededores> listaAcrededoresFiltrada;
+    private ImplListaEnlazada<Acrededores> listaExportar;
 
     public Consulta_Acreedores() {
         initComponents();
         cargarDepartamentos();
-        cargarPliegos();
-        cargarEjecutoras();
+        agregarListeners();
+
+        selectDepartamento.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String departamento = (String) selectDepartamento.getSelectedItem();
+                cargarProvincias(departamento);
+                cargarPliegos(departamento, null, null);
+                cargarEjecutoras(departamento, null, null);
+            }
+        });
+
+        selectProvincia.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String departamento = (String) selectDepartamento.getSelectedItem();
+                String provincia = (String) selectProvincia.getSelectedItem();
+                cargarDistritos(provincia);
+                cargarPliegos(departamento, provincia, null);
+                cargarEjecutoras(departamento, provincia, null);
+            }
+        });
+
+        selectDistrito.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String departamento = (String) selectDepartamento.getSelectedItem();
+                String provincia = (String) selectProvincia.getSelectedItem();
+                String distrito = (String) selectDistrito.getSelectedItem();
+                cargarPliegos(departamento, provincia, distrito);
+                cargarEjecutoras(departamento, provincia, distrito);
+            }
+        });
     }
+
     private void cargarDepartamentos() {
         ImplListaEnlazada<String> departamentos = controllerAcrededores.obtenerDepartamentos();
         Nodo<String> actual = departamentos.getCabeza();
+        selectDepartamento.removeAllItems();
+        selectDepartamento.addItem("Seleccionar");
         while (actual != null) {
             selectDepartamento.addItem(actual.getDato());
             actual = actual.getSiguiente();
         }
+        selectDepartamento.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
 
     private void cargarProvincias(String departamento) {
         ImplListaEnlazada<String> provincias = controllerAcrededores.obtenerProvinciasPorDepartamento(departamento);
         Nodo<String> actual = provincias.getCabeza();
         selectProvincia.removeAllItems();
+        selectProvincia.addItem("Seleccionar");
         while (actual != null) {
             selectProvincia.addItem(actual.getDato());
             actual = actual.getSiguiente();
         }
+        selectProvincia.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
 
     private void cargarDistritos(String provincia) {
         ImplListaEnlazada<String> distritos = controllerAcrededores.obtenerDistritosPorProvincia(provincia);
         Nodo<String> actual = distritos.getCabeza();
         selectDistrito.removeAllItems();
+        selectDistrito.addItem("Seleccionar");
         while (actual != null) {
             selectDistrito.addItem(actual.getDato());
             actual = actual.getSiguiente();
         }
+        selectDistrito.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
 
-    private void cargarPliegos() {
-        ImplListaEnlazada<String> pliegos = controllerAcrededores.obtenerPliegos();
+    private void cargarPliegos(String departamento, String provincia, String distrito) {
+        ImplListaEnlazada<String> pliegos = controllerAcrededores.obtenerPliegos(departamento, provincia, distrito);
         Nodo<String> actual = pliegos.getCabeza();
         selectPliego.removeAllItems();
+        selectPliego.addItem("Seleccionar");
         while (actual != null) {
             selectPliego.addItem(actual.getDato());
             actual = actual.getSiguiente();
         }
+        selectPliego.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
 
-    private void cargarEjecutoras() {
-        ImplListaEnlazada<String> ejecutoras = controllerAcrededores.obtenerEjecutoras();
+    private void cargarEjecutoras(String departamento, String provincia, String distrito) {
+        ImplListaEnlazada<String> ejecutoras = controllerAcrededores.obtenerEjecutoras(departamento, provincia, distrito);
         Nodo<String> actual = ejecutoras.getCabeza();
         selectEjecutora.removeAllItems();
+        selectEjecutora.addItem("Seleccionar");
         while (actual != null) {
             selectEjecutora.addItem(actual.getDato());
             actual = actual.getSiguiente();
         }
+        selectEjecutora.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,13 +169,13 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
 
         tablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "RUC", "RAZON SOCIAL", "DEPARTAMENTO", "PROVINCIA", "DISTRITO"
             }
         ));
         jScrollPane1.setViewportView(tablaResultados);
@@ -158,8 +203,14 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         btnExportarPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-register-20.png"))); // NOI18N
         btnExportarPDF.setText("Exportar PDF");
         btnExportarPDF.setBorder(null);
+        btnExportarPDF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExportarPDFMouseClicked(evt);
+            }
+        });
 
         selectDepartamento.setBackground(new java.awt.Color(255, 255, 255));
+        selectDepartamento.setToolTipText("");
 
         selectProvincia.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -187,6 +238,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         btnExportarCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-csv-20.png"))); // NOI18N
         btnExportarCSV.setText("Exportar CSV");
         btnExportarCSV.setBorder(null);
+        btnExportarCSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExportarCSVMouseClicked(evt);
+            }
+        });
 
         btnActualizarTabla.setBackground(new java.awt.Color(255, 161, 1));
         btnActualizarTabla.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -194,6 +250,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         btnActualizarTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-actualizar-20.png"))); // NOI18N
         btnActualizarTabla.setText("Actualizar");
         btnActualizarTabla.setBorder(null);
+        btnActualizarTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActualizarTablaMouseClicked(evt);
+            }
+        });
 
         jLabel5.setText("Departamento");
 
@@ -245,12 +306,9 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(1, 1, 1)))
+                            .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(selectDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
@@ -324,7 +382,7 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private void txtRUCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRUCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRUCActionPerformed
-  
+
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         // TODO add your handling code here:
         String campo = ""; // Inicializa una variable para el campo de búsqueda
@@ -345,10 +403,10 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         // Verifica que se haya especificado un campo de búsqueda
         if (!campo.isEmpty() && !valor.isEmpty()) {
             // Llama al método buscar del controlador
-            ImplListaEnlazada<Acrededores> resultados = controllerAcrededores.buscar(campo, valor);
+            listaAcrededoresFiltrada = controllerAcrededores.buscar(campo, valor);
 
             // Actualiza la tabla con los resultados
-            actualizarTabla(resultados);
+            actualizarTabla(listaAcrededoresFiltrada);
         } else {
             // Muestra un mensaje de error si no se especifica ningún campo de búsqueda
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -362,8 +420,77 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private void selectEjecutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEjecutoraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_selectEjecutoraActionPerformed
+
+    private void btnActualizarTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarTablaMouseClicked
+        // TODO add your handling code here:
+        // Obtiene los valores seleccionados de los comboboxes
+        String valorDepartamento = (String) selectDepartamento.getSelectedItem();
+        String valorProvincia = (String) selectProvincia.getSelectedItem();
+        String valorDistrito = (String) selectDistrito.getSelectedItem();
+        String valorPliego = (String) selectPliego.getSelectedItem();
+        String valorEjecutora = (String) selectEjecutora.getSelectedItem();
+
+        // Mensajes de depuración para comprobar los valores seleccionados
+        System.out.println("Departamento: " + valorDepartamento);
+        System.out.println("Provincia: " + valorProvincia);
+        System.out.println("Distrito: " + valorDistrito);
+        System.out.println("Pliego: " + valorPliego);
+        System.out.println("Ejecutora: " + valorEjecutora);
+
+        // Verifica que listaAcrededoresFiltrada no sea null o esté vacía
+        if (listaAcrededoresFiltrada == null || listaAcrededoresFiltrada.getTamaño() == 0) {
+            System.out.println("La lista de acreedores filtrada está vacía o es nula.");
+            return;
+        }
+
+        // Filtra la lista de acreedores
+        ImplListaEnlazada<Acrededores> listaFiltrada = controllerAcrededores.filtrar(
+                listaAcrededoresFiltrada,
+                valorDepartamento,
+                valorProvincia,
+                valorDistrito,
+                valorPliego,
+                valorEjecutora
+        );
+
+        // Verifica si la lista filtrada tiene resultados
+        if (listaFiltrada.getTamaño() == 0) {
+            System.out.println("gaaaaaaaaaaaaaaaa");
+        } else {
+            actualizarTabla(listaFiltrada);
+        }
+    }//GEN-LAST:event_btnActualizarTablaMouseClicked
+
+    private void btnExportarPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarPDFMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar como PDF");
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            controllerAcrededores.exportarAPDF(listaExportar, filePath); 
+        }
+    }//GEN-LAST:event_btnExportarPDFMouseClicked
+
+    private void btnExportarCSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarCSVMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar como CSV");
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            if (!filePath.endsWith(".csv")) {
+                filePath += ".csv";
+            }
+            controllerAcrededores.exportarACSV(listaExportar, filePath); 
+        }
+    }//GEN-LAST:event_btnExportarCSVMouseClicked
     private void actualizarTabla(ImplListaEnlazada<Acrededores> resultados) {
         // Define el modelo de la tabla
+        listaExportar = resultados;
         DefaultTableModel model = (DefaultTableModel) tablaResultados.getModel();
 
         // Limpia la tabla antes de agregar nuevos datos
@@ -397,6 +524,31 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
 
             actual = actual.getSiguiente();
         }
+    }
+
+    private void agregarListeners() {
+        selectDepartamento.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String departamentoSeleccionado = (String) selectDepartamento.getSelectedItem();
+                if (departamentoSeleccionado != null) {
+                    cargarProvincias(departamentoSeleccionado);
+                    selectDistrito.removeAllItems(); // Limpiar distritos
+                    selectDistrito.setEnabled(false); // Deshabilitar distritos hasta que se seleccione una provincia
+                }
+            }
+        });
+
+        selectProvincia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String provinciaSeleccionada = (String) selectProvincia.getSelectedItem();
+                if (provinciaSeleccionada != null) {
+                    cargarDistritos(provinciaSeleccionada);
+                    selectDistrito.setEnabled(true); // Habilitar distritos después de seleccionar una provincia
+                }
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
