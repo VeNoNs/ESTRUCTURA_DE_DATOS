@@ -1,8 +1,0 @@
-Controller\ControllerAcrededores.class
-Models\Trabajador.class
-Controller\IControllerAcrededores.class
-Models\Usuario.class
-Models\Acrededores.class
-Controller\ServiciosAcceso.class
-Controller\IAccesoSistema.class
-Models\AdministradorSistema.class

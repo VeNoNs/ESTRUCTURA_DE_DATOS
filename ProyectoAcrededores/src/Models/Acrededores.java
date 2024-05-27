@@ -27,7 +27,30 @@ public class Acrededores {
     private String descPliego;
     private long secEjec;
     private String descEjecutora;
-    private long observacionGlosa;
+    private String observacionGlosa;
+
+    
+
+    public Acrededores(String ruc, String razonSocial, String remypeDepartamento, String remypeProvincia, String remypeDistrito, String domicilioFiscal, String appInformaticoDemandas, String siaf, String estadoDeuda, String tipoDocumento, String docDevenOSentenJudi, double montoDeuda, String descNivelGobierno, String descSector, String descPliego, long secEjec, String descEjecutora, String observacionGlosa) {
+        this.ruc = ruc;
+        this.razonSocial = razonSocial;
+        this.remypeDepartamento = remypeDepartamento;
+        this.remypeProvincia = remypeProvincia;
+        this.remypeDistrito = remypeDistrito;
+        this.domicilioFiscal = domicilioFiscal;
+        this.appInformaticoDemandas = appInformaticoDemandas;
+        this.siaf = siaf;
+        this.estadoDeuda = estadoDeuda;
+        this.tipoDocumento = tipoDocumento;
+        this.docDevenOSentenJudi = docDevenOSentenJudi;
+        this.montoDeuda = montoDeuda;
+        this.descNivelGobierno = descNivelGobierno;
+        this.descSector = descSector;
+        this.descPliego = descPliego;
+        this.secEjec = secEjec;
+        this.descEjecutora = descEjecutora;
+        this.observacionGlosa = observacionGlosa;
+    }
 
     public String getRuc() {
         return ruc;
@@ -36,8 +59,6 @@ public class Acrededores {
     public void setRuc(String ruc) {
         this.ruc = ruc;
     }
-
- 
 
     public String getRazonSocial() {
         return razonSocial;
@@ -167,13 +188,41 @@ public class Acrededores {
         this.descEjecutora = descEjecutora;
     }
 
-    public long getObservacionGlosa() {
+    public String getObservacionGlosa() {
         return observacionGlosa;
     }
 
-    public void setObservacionGlosa(long observacionGlosa) {
+    public void setObservacionGlosa(String observacionGlosa) {
         this.observacionGlosa = observacionGlosa;
     }
 
-    
+   
+
+    public String toCSV() {
+        return ruc + "," + razonSocial + "," + remypeDepartamento + "," + remypeProvincia + "," + remypeDistrito + ","
+                + domicilioFiscal + "," + appInformaticoDemandas + "," + siaf + "," + estadoDeuda + "," + tipoDocumento + ","
+                + docDevenOSentenJudi + "," + montoDeuda + "," + descNivelGobierno + "," + descSector + "," + descPliego + ","
+                + secEjec + "," + descEjecutora + "," + observacionGlosa;
+    }
+
+    public String toPDF() {
+        return "RUC: " + ruc + "\n"
+                + "Razón Social: " + razonSocial + "\n"
+                + "Departamento: " + remypeDepartamento + "\n"
+                + "Provincia: " + remypeProvincia + "\n"
+                + "Distrito: " + remypeDistrito + "\n"
+                + "Domicilio Fiscal: " + domicilioFiscal + "\n"
+                + "Aplicativo Informático: " + appInformaticoDemandas + "\n"
+                + "SIAF: " + siaf + "\n"
+                + "Estado Deuda: " + estadoDeuda + "\n"
+                + "Tipo Documento: " + tipoDocumento + "\n"
+                + "Documento Devenido o Sentencia Judicial: " + docDevenOSentenJudi + "\n"
+                + "Monto Deuda: " + montoDeuda + "\n"
+                + "Nivel Gobierno: " + descNivelGobierno + "\n"
+                + "Sector: " + descSector + "\n"
+                + "Pliego: " + descPliego + "\n"
+                + "Sec. Ejecución: " + secEjec + "\n"
+                + "Ejecutora: " + descEjecutora + "\n"
+                + "Observación Glosa: " + observacionGlosa + "\n\n";
+    }
 }

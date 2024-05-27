@@ -11,12 +11,16 @@ import Models.Acrededores;
  * @author Frank
  */
 public interface IControllerAcrededores {
-
-    void agregarAcreedor(Acrededores acreedor);
-
-    void editarAcreedor(Acrededores acreedor);
-
-    Acrededores buscarAcreedor(long ruc);
-
-    void eliminarAcreedor(long ruc);
+    
+    public void cargarAcrededores();
+    
+    public void guardarAcrededores();
+    
+    public void crearAcredor(Acrededores acredor);
+    
+    public void eliminarAcredor(int posicion);
+    
+    public void actualizarAcredor(int posicion, Acrededores acredorActualizado) ;
+    
+    public void imprimirAcrededores();
 }

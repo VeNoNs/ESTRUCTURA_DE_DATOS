@@ -10,7 +10,7 @@ import Models.Nodo;
  *
  * @author Frank
  */
-public interface IListaEnlazadaDoble<T> {
+public interface IListaEnlazada<T> {
     public void insertar(T dato, int posicion);
     public T retirar(int posicion);
     public Nodo<T> buscar(T dato);

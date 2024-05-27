@@ -4,21 +4,21 @@
  */
 package Controller;
 
-import Interfaces.IListaEnlazadaDoble;
 import Models.Nodo;
+import Interfaces.IListaEnlazada;
 
 /**
  *
  * @author Frank
  */
-public class ImplListaEnlazada<T> implements IListaEnlazadaDoble<T> {
+public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
 
-    private Nodo<T> cabeza;
-    private Nodo<T> cola;
+  private Nodo<T> cabeza;
+    private int tamaño;
 
     public ImplListaEnlazada() {
         this.cabeza = null;
-        this.cola = null;
+        this.tamaño = 0;
     }
 
     public boolean estaVacia() {
@@ -27,80 +27,45 @@ public class ImplListaEnlazada<T> implements IListaEnlazadaDoble<T> {
 
     @Override
     public void insertar(T dato, int posicion) {
-        Nodo<T> nuevoNodo = new Nodo<>(dato);
-        if (posicion < 0) {
-            throw new IndexOutOfBoundsException("Posición negativa");
+        if (posicion < 0 || posicion > tamaño) {
+            throw new IndexOutOfBoundsException("Posición fuera de rango");
         }
 
-        if (estaVacia()) {
-            cabeza = nuevoNodo;
-            cola = nuevoNodo;
-        } else if (posicion == 0) {
+        Nodo<T> nuevoNodo = new Nodo<>(dato);
+        if (posicion == 0) {
             nuevoNodo.setSiguiente(cabeza);
-            cabeza.setAnterior(nuevoNodo);
             cabeza = nuevoNodo;
         } else {
-            Nodo<T> iterador = cabeza;
-            int contador = 0;
-
-            while (iterador != null && contador < posicion - 1) {
-                iterador = iterador.getSiguiente();
-                contador++;
+            Nodo<T> actual = cabeza;
+            for (int i = 0; i < posicion - 1; i++) {
+                actual = actual.getSiguiente();
             }
-
-            if (iterador == null) {
-                throw new IndexOutOfBoundsException("Posición fuera de rango");
-            }
-
-            nuevoNodo.setSiguiente(iterador.getSiguiente());
-            if (iterador.getSiguiente() != null) {
-                iterador.getSiguiente().setAnterior(nuevoNodo);
-            } else {
-                cola = nuevoNodo;
-            }
-            iterador.setSiguiente(nuevoNodo);
-            nuevoNodo.setAnterior(iterador);
+            nuevoNodo.setSiguiente(actual.getSiguiente());
+            actual.setSiguiente(nuevoNodo);
         }
+        tamaño++;
     }
 
     @Override
     public T retirar(int posicion) {
-        if (posicion < 0 || estaVacia()) {
-            throw new IndexOutOfBoundsException("Posición negativa o lista vacía");
+        if (posicion < 0 || posicion >= tamaño) {
+            throw new IndexOutOfBoundsException("Posición fuera de rango");
         }
 
         T datoRetirado;
         if (posicion == 0) {
             datoRetirado = cabeza.getDato();
             cabeza = cabeza.getSiguiente();
-            if (cabeza != null) {
-                cabeza.setAnterior(null);
-            } else {
-                cola = null;
-            }
         } else {
-            Nodo<T> iterador = cabeza;
-            int contador = 0;
-
-            while (iterador != null && contador < posicion - 1) {
-                iterador = iterador.getSiguiente();
-                contador++;
+            Nodo<T> actual = cabeza;
+            for (int i = 0; i < posicion - 1; i++) {
+                actual = actual.getSiguiente();
             }
-
-            if (iterador == null || iterador.getSiguiente() == null) {
-                throw new IndexOutOfBoundsException("Posición fuera de rango");
-            }
-
-            Nodo<T> nodoARetirar = iterador.getSiguiente();
+            Nodo<T> nodoARetirar = actual.getSiguiente();
             datoRetirado = nodoARetirar.getDato();
-            iterador.setSiguiente(nodoARetirar.getSiguiente());
-            if (nodoARetirar.getSiguiente() != null) {
-                nodoARetirar.getSiguiente().setAnterior(iterador);
-            } else {
-                cola = iterador;
-            }
+            actual.setSiguiente(nodoARetirar.getSiguiente());
         }
-
+        tamaño--;
         return datoRetirado;
     }
 
@@ -125,5 +90,22 @@ public class ImplListaEnlazada<T> implements IListaEnlazadaDoble<T> {
         }
         return null;
     }
+    
+    
 
+    public int getTamaño() {
+        return tamaño;
+    }
+
+    public Nodo<T> getCabeza() {
+        return cabeza;
+    }
+
+    public void setCabeza(Nodo<T> cabeza) {
+        this.cabeza = cabeza;
+    }
+    
+    
 }
+
+
