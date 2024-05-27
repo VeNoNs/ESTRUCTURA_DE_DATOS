@@ -91,7 +91,16 @@ public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
         return null;
     }
     
-    
+    public boolean contiene(T dato) {
+        Nodo<T> actual = cabeza;
+        while (actual != null) {
+            if (actual.getDato().equals(dato)) {
+                return true;
+            }
+            actual = actual.getSiguiente();
+        }
+        return false;
+    }
 
     public int getTamaño() {
         return tamaño;

@@ -4,6 +4,7 @@
  */
 package Interfaces;
 
+import Controller.ImplListaEnlazada;
 import Models.Acrededores;
 
 /**
@@ -23,4 +24,16 @@ public interface IControllerAcrededores {
     public void actualizarAcredor(int posicion, Acrededores acredorActualizado) ;
     
     public void imprimirAcrededores();
+    
+    public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) ;
+
+    public ImplListaEnlazada<String> obtenerDistritosPorProvincia(String provincia);
+
+    public ImplListaEnlazada<String> obtenerPliegos();
+
+    public ImplListaEnlazada<String> obtenerEjecutoras();
+
+    public ImplListaEnlazada<String> obtenerDepartamentos();
+
+    public ImplListaEnlazada<String> obtenerProvinciasPorDepartamento(String departamento);
 }

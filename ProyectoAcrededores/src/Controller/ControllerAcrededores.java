@@ -70,6 +70,7 @@ public class ControllerAcrededores implements IControllerAcrededores {
     public void imprimirAcrededores() {
         listaAcrededores.imprimirLista();
     }
+    
 public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
         ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
         Nodo<Acrededores> actual = listaAcrededores.getCabeza();
@@ -80,13 +81,13 @@ public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
 
             switch (campo) {
                 case "RUC":
-                    coincide = acredor.getRuc().equalsIgnoreCase(valor);
+                    coincide = acredor.getRuc().startsWith(valor);
                     break;
                 case "Razón Social":
-                    coincide = acredor.getRazonSocial().equalsIgnoreCase(valor);
+                    coincide = acredor.getRazonSocial().startsWith(valor);
                     break;
                 case "Pliego":
-                    coincide = acredor.getDescPliego().equalsIgnoreCase(valor);
+                    coincide = acredor.getDescPliego().startsWith(valor);
                     break;
             }
 
@@ -179,5 +180,89 @@ public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
         ImplListaEnlazada<Acrededores> resultadosBusqueda = buscar(campoBusqueda, valorBusqueda);
         return filtrar(resultadosBusqueda, departamento, provincia, distrito, pliego, ejecutora,
                        valorDepartamento, valorProvincia, valorDistrito, valorPliego, valorEjecutora);
+    }
+    
+    public ImplListaEnlazada<String> obtenerDepartamentos() {
+        ImplListaEnlazada<String> departamentos = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String departamento = acredor.getRemypeDepartamento();
+            if (!departamentos.contiene(departamento)) {
+                departamentos.insertar(departamento, departamentos.getTamaño());
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return departamentos;
+    }
+
+    public ImplListaEnlazada<String> obtenerProvinciasPorDepartamento(String departamento) {
+        ImplListaEnlazada<String> provincias = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            if (acredor.getRemypeDepartamento().equalsIgnoreCase(departamento)) {
+                String provincia = acredor.getRemypeProvincia();
+                if (!provincias.contiene(provincia)) {
+                    provincias.insertar(provincia, provincias.getTamaño());
+                }
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return provincias;
+    }
+
+    public ImplListaEnlazada<String> obtenerDistritosPorProvincia(String provincia) {
+        ImplListaEnlazada<String> distritos = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            if (acredor.getRemypeProvincia().equalsIgnoreCase(provincia)) {
+                String distrito = acredor.getRemypeDistrito();
+                if (!distritos.contiene(distrito)) {
+                    distritos.insertar(distrito, distritos.getTamaño());
+                }
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return distritos;
+    }
+
+    public ImplListaEnlazada<String> obtenerPliegos() {
+        ImplListaEnlazada<String> pliegos = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String pliego = acredor.getDescPliego();
+            if (!pliegos.contiene(pliego)) {
+                pliegos.insertar(pliego, pliegos.getTamaño());
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return pliegos;
+    }
+
+    public ImplListaEnlazada<String> obtenerEjecutoras() {
+        ImplListaEnlazada<String> ejecutoras = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String ejecutora = acredor.getDescEjecutora();
+            if (!ejecutoras.contiene(ejecutora)) {
+                ejecutoras.insertar(ejecutora, ejecutoras.getTamaño());
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return ejecutoras;
     }
 }

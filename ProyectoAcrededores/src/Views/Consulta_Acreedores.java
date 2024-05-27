@@ -4,6 +4,14 @@
  */
 package Views;
 
+import Controller.ControllerAcrededores;
+import Controller.ImplListaEnlazada;
+import Interfaces.IControllerAcrededores;
+import Models.Acrededores;
+import Models.Nodo;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Andre H
@@ -13,9 +21,63 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     /**
      * Creates new form Consulta_Acreedores
      */
+    IControllerAcrededores controllerAcrededores = new ControllerAcrededores();
+
     public Consulta_Acreedores() {
         initComponents();
+        cargarDepartamentos();
+        cargarPliegos();
+        cargarEjecutoras();
     }
+    private void cargarDepartamentos() {
+        ImplListaEnlazada<String> departamentos = controllerAcrededores.obtenerDepartamentos();
+        Nodo<String> actual = departamentos.getCabeza();
+        while (actual != null) {
+            selectDepartamento.addItem(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+    }
+
+    private void cargarProvincias(String departamento) {
+        ImplListaEnlazada<String> provincias = controllerAcrededores.obtenerProvinciasPorDepartamento(departamento);
+        Nodo<String> actual = provincias.getCabeza();
+        selectProvincia.removeAllItems();
+        while (actual != null) {
+            selectProvincia.addItem(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+    }
+
+    private void cargarDistritos(String provincia) {
+        ImplListaEnlazada<String> distritos = controllerAcrededores.obtenerDistritosPorProvincia(provincia);
+        Nodo<String> actual = distritos.getCabeza();
+        selectDistrito.removeAllItems();
+        while (actual != null) {
+            selectDistrito.addItem(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+    }
+
+    private void cargarPliegos() {
+        ImplListaEnlazada<String> pliegos = controllerAcrededores.obtenerPliegos();
+        Nodo<String> actual = pliegos.getCabeza();
+        selectPliego.removeAllItems();
+        while (actual != null) {
+            selectPliego.addItem(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+    }
+
+    private void cargarEjecutoras() {
+        ImplListaEnlazada<String> ejecutoras = controllerAcrededores.obtenerEjecutoras();
+        Nodo<String> actual = ejecutoras.getCabeza();
+        selectEjecutora.removeAllItems();
+        while (actual != null) {
+            selectEjecutora.addItem(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,58 +89,59 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jTextField2 = new javax.swing.JTextField();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jTextField3 = new javax.swing.JTextField();
+        cbDepartamento = new javax.swing.JCheckBox();
+        txtRUC = new javax.swing.JTextField();
+        cbDistrito = new javax.swing.JCheckBox();
+        txtRazonSocial = new javax.swing.JTextField();
+        cbProvincia = new javax.swing.JCheckBox();
+        txtPliego = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        tablaResultados = new javax.swing.JTable();
+        cbPliego = new javax.swing.JCheckBox();
+        cbEjecutora = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        btnBuscar = new javax.swing.JButton();
+        btnExportarPDF = new javax.swing.JButton();
+        selectDepartamento = new javax.swing.JComboBox<>();
+        selectProvincia = new javax.swing.JComboBox<>();
+        selectDistrito = new javax.swing.JComboBox<>();
+        selectPliego = new javax.swing.JComboBox<>();
+        selectEjecutora = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnExportarCSV = new javax.swing.JButton();
+        btnActualizarTabla = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Departamento");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbDepartamento.setBackground(new java.awt.Color(255, 255, 255));
+        cbDepartamento.setText("Departamento");
+        cbDepartamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                cbDepartamentoActionPerformed(evt);
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtRUC.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtRUC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtRUCActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setText("Distrito");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        cbDistrito.setBackground(new java.awt.Color(255, 255, 255));
+        cbDistrito.setText("Distrito");
+        cbDistrito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+                cbDistritoActionPerformed(evt);
             }
         });
 
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setText("Provincia");
+        cbProvincia.setBackground(new java.awt.Color(255, 255, 255));
+        cbProvincia.setText("Provincia");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -89,21 +152,21 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaResultados);
 
-        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox4.setText("Pliego");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        cbPliego.setBackground(new java.awt.Color(255, 255, 255));
+        cbPliego.setText("Pliego");
+        cbPliego.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                cbPliegoActionPerformed(evt);
             }
         });
 
-        jCheckBox5.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox5.setText("Ejecutora");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        cbEjecutora.setBackground(new java.awt.Color(255, 255, 255));
+        cbEjecutora.setText("Ejecutora");
+        cbEjecutora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                cbEjecutoraActionPerformed(evt);
             }
         });
 
@@ -113,49 +176,54 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
 
         jLabel3.setText("Pliego");
 
-        jButton1.setBackground(new java.awt.Color(255, 161, 1));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Buscar");
-        jButton1.setBorder(null);
+        btnBuscar.setBackground(new java.awt.Color(255, 161, 1));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorder(null);
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 161, 1));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-register-20.png"))); // NOI18N
-        jButton2.setText("Exportar PDF");
-        jButton2.setBorder(null);
+        btnExportarPDF.setBackground(new java.awt.Color(255, 161, 1));
+        btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarPDF.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-register-20.png"))); // NOI18N
+        btnExportarPDF.setText("Exportar PDF");
+        btnExportarPDF.setBorder(null);
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectDepartamento.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectProvincia.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectDistrito.setBackground(new java.awt.Color(255, 255, 255));
+        selectDistrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDistritoActionPerformed(evt);
+            }
+        });
 
-        jComboBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectPliego.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox5.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectEjecutora.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-search-20.png"))); // NOI18N
 
-        jButton3.setBackground(new java.awt.Color(255, 161, 1));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-csv-20.png"))); // NOI18N
-        jButton3.setText("Exportar CSV");
-        jButton3.setBorder(null);
+        btnExportarCSV.setBackground(new java.awt.Color(255, 161, 1));
+        btnExportarCSV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarCSV.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-csv-20.png"))); // NOI18N
+        btnExportarCSV.setText("Exportar CSV");
+        btnExportarCSV.setBorder(null);
 
-        jButton4.setBackground(new java.awt.Color(255, 161, 1));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-actualizar-20.png"))); // NOI18N
-        jButton4.setText("Actualizar");
-        jButton4.setBorder(null);
+        btnActualizarTabla.setBackground(new java.awt.Color(255, 161, 1));
+        btnActualizarTabla.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnActualizarTabla.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-actualizar-20.png"))); // NOI18N
+        btnActualizarTabla.setText("Actualizar");
+        btnActualizarTabla.setBorder(null);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,47 +236,47 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(28, 28, 28)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField3))
+                        .addComponent(txtPliego))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbDepartamento)
+                            .addComponent(selectDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbProvincia)
+                            .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbDistrito)
+                            .addComponent(selectDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbPliego)
+                            .addComponent(selectPliego, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbEjecutora)
+                            .addComponent(selectEjecutora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnExportarPDF, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -219,36 +287,39 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
                         .addComponent(jLabel3)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPliego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5))
+                    .addComponent(cbDepartamento)
+                    .addComponent(cbProvincia)
+                    .addComponent(cbDistrito)
+                    .addComponent(cbPliego)
+                    .addComponent(cbEjecutora))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectPliego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectEjecutora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(292, 292, 292)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(19, 19, 19))
+                        .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -263,51 +334,120 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDepartamentoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_cbDepartamentoActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtRUCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRUCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtRUCActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+    private void cbDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDistritoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }//GEN-LAST:event_cbDistritoActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void cbPliegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPliegoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_cbPliegoActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void cbEjecutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEjecutoraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_cbEjecutoraActionPerformed
+  
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        // TODO add your handling code here:
+        String campo = ""; // Inicializa una variable para el campo de búsqueda
+        String valor = ""; // Inicializa una variable para el valor de búsqueda
 
+        // Determina cuál campo se va a buscar y obtiene su valor
+        if (!txtRUC.getText().isEmpty()) {
+            campo = "RUC";
+            valor = txtRUC.getText();
+        } else if (!txtRazonSocial.getText().isEmpty()) {
+            campo = "Razón Social";
+            valor = txtRazonSocial.getText();
+        } else if (!txtPliego.getText().isEmpty()) {
+            campo = "Pliego";
+            valor = txtPliego.getText();
+        }
+
+        // Verifica que se haya especificado un campo de búsqueda
+        if (!campo.isEmpty() && !valor.isEmpty()) {
+            // Llama al método buscar del controlador
+            ImplListaEnlazada<Acrededores> resultados = controllerAcrededores.buscar(campo, valor);
+
+            // Actualiza la tabla con los resultados
+            actualizarTabla(resultados);
+        } else {
+            // Muestra un mensaje de error si no se especifica ningún campo de búsqueda
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarMouseClicked
+
+    private void selectDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectDistritoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectDistritoActionPerformed
+    private void actualizarTabla(ImplListaEnlazada<Acrededores> resultados) {
+        // Define el modelo de la tabla
+        DefaultTableModel model = (DefaultTableModel) tablaResultados.getModel();
+
+        // Limpia la tabla antes de agregar nuevos datos
+        model.setRowCount(0);
+
+        Nodo<Acrededores> actual = resultados.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            // Agrega una fila a la tabla con los datos del acreedor
+            model.addRow(new Object[]{
+                acredor.getRuc(),
+                acredor.getRazonSocial(),
+                acredor.getRemypeDepartamento(),
+                acredor.getRemypeProvincia(),
+                acredor.getRemypeDistrito(),
+                acredor.getDomicilioFiscal(),
+                acredor.getAppInformaticoDemandas(),
+                acredor.getSiaf(),
+                acredor.getEstadoDeuda(),
+                acredor.getTipoDocumento(),
+                acredor.getDocDevenOSentenJudi(),
+                acredor.getMontoDeuda(),
+                acredor.getDescNivelGobierno(),
+                acredor.getDescSector(),
+                acredor.getDescPliego(),
+                acredor.getSecEjec(),
+                acredor.getDescEjecutora(),
+                acredor.getObservacionGlosa()
+            });
+
+            actual = actual.getSiguiente();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JButton btnActualizarTabla;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnExportarCSV;
+    private javax.swing.JButton btnExportarPDF;
+    private javax.swing.JCheckBox cbDepartamento;
+    private javax.swing.JCheckBox cbDistrito;
+    private javax.swing.JCheckBox cbEjecutora;
+    private javax.swing.JCheckBox cbPliego;
+    private javax.swing.JCheckBox cbProvincia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JComboBox<String> selectDepartamento;
+    private javax.swing.JComboBox<String> selectDistrito;
+    private javax.swing.JComboBox<String> selectEjecutora;
+    private javax.swing.JComboBox<String> selectPliego;
+    private javax.swing.JComboBox<String> selectProvincia;
+    private javax.swing.JTable tablaResultados;
+    private javax.swing.JTextField txtPliego;
+    private javax.swing.JTextField txtRUC;
+    private javax.swing.JTextField txtRazonSocial;
     // End of variables declaration//GEN-END:variables
 }
