@@ -89,16 +89,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        cbDepartamento = new javax.swing.JCheckBox();
         txtRUC = new javax.swing.JTextField();
-        cbDistrito = new javax.swing.JCheckBox();
         txtRazonSocial = new javax.swing.JTextField();
-        cbProvincia = new javax.swing.JCheckBox();
         txtPliego = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaResultados = new javax.swing.JTable();
-        cbPliego = new javax.swing.JCheckBox();
-        cbEjecutora = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -112,16 +107,13 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         btnExportarCSV = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        cbDepartamento.setBackground(new java.awt.Color(255, 255, 255));
-        cbDepartamento.setText("Departamento");
-        cbDepartamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbDepartamentoActionPerformed(evt);
-            }
-        });
 
         txtRUC.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtRUC.addActionListener(new java.awt.event.ActionListener() {
@@ -129,17 +121,6 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                 txtRUCActionPerformed(evt);
             }
         });
-
-        cbDistrito.setBackground(new java.awt.Color(255, 255, 255));
-        cbDistrito.setText("Distrito");
-        cbDistrito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbDistritoActionPerformed(evt);
-            }
-        });
-
-        cbProvincia.setBackground(new java.awt.Color(255, 255, 255));
-        cbProvincia.setText("Provincia");
 
         tablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -153,22 +134,6 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tablaResultados);
-
-        cbPliego.setBackground(new java.awt.Color(255, 255, 255));
-        cbPliego.setText("Pliego");
-        cbPliego.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbPliegoActionPerformed(evt);
-            }
-        });
-
-        cbEjecutora.setBackground(new java.awt.Color(255, 255, 255));
-        cbEjecutora.setText("Ejecutora");
-        cbEjecutora.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEjecutoraActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("RUC");
 
@@ -208,6 +173,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         selectPliego.setBackground(new java.awt.Color(255, 255, 255));
 
         selectEjecutora.setBackground(new java.awt.Color(255, 255, 255));
+        selectEjecutora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEjecutoraActionPerformed(evt);
+            }
+        });
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-search-20.png"))); // NOI18N
 
@@ -225,14 +195,37 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         btnActualizarTabla.setText("Actualizar");
         btnActualizarTabla.setBorder(null);
 
+        jLabel5.setText("Departamento");
+
+        jLabel6.setText("Provincia");
+
+        jLabel7.setText("Distrito");
+
+        jLabel8.setText("Pliego");
+
+        jLabel9.setText("Ejecutora");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(btnExportarPDF, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                            .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(28, 28, 28)
@@ -244,39 +237,33 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(txtPliego))
+                        .addComponent(txtPliego, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbDepartamento)
-                            .addComponent(selectDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(selectDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbProvincia)
-                            .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbDistrito)
-                            .addComponent(selectDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbPliego)
-                            .addComponent(selectPliego, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbEjecutora)
-                            .addComponent(selectEjecutora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnExportarPDF, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                    .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(1, 1, 1)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selectDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(selectPliego, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(selectEjecutora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -294,13 +281,14 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                         .addComponent(txtPliego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbDepartamento)
-                    .addComponent(cbProvincia)
-                    .addComponent(cbDistrito)
-                    .addComponent(cbPliego)
-                    .addComponent(cbEjecutora))
-                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel7))
+                    .addComponent(jLabel9))
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selectDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,16 +296,15 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                     .addComponent(selectPliego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectEjecutora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(292, 292, 292)
                         .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarCSV, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                         .addGap(19, 19, 19))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())))
         );
@@ -334,25 +321,9 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDepartamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbDepartamentoActionPerformed
-
     private void txtRUCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRUCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRUCActionPerformed
-
-    private void cbDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDistritoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbDistritoActionPerformed
-
-    private void cbPliegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPliegoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbPliegoActionPerformed
-
-    private void cbEjecutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEjecutoraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbEjecutoraActionPerformed
   
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         // TODO add your handling code here:
@@ -387,6 +358,10 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private void selectDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectDistritoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_selectDistritoActionPerformed
+
+    private void selectEjecutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEjecutoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectEjecutoraActionPerformed
     private void actualizarTabla(ImplListaEnlazada<Acrededores> resultados) {
         // Define el modelo de la tabla
         DefaultTableModel model = (DefaultTableModel) tablaResultados.getModel();
@@ -429,15 +404,15 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnExportarCSV;
     private javax.swing.JButton btnExportarPDF;
-    private javax.swing.JCheckBox cbDepartamento;
-    private javax.swing.JCheckBox cbDistrito;
-    private javax.swing.JCheckBox cbEjecutora;
-    private javax.swing.JCheckBox cbPliego;
-    private javax.swing.JCheckBox cbProvincia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> selectDepartamento;
