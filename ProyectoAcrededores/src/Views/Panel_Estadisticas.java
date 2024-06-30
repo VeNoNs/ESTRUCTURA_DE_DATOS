@@ -4,6 +4,11 @@
  */
 package Views;
 
+import Controller.ControllerAcrededores;
+import Controller.ImplTablaHash;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -14,8 +19,11 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
     /**
      * Creates new form Panel_Estadisticas
      */
+    private ControllerAcrededores controlador;
+    
     public Panel_Estadisticas() {
         initComponents();
+        controlador = new ControllerAcrededores();
     }
     
     
@@ -35,16 +43,16 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         Opciones = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        tableEstadisticas = new javax.swing.JTable();
+        radioDeProDis = new javax.swing.JRadioButton();
+        radioDePli = new javax.swing.JRadioButton();
+        radioDeDocu = new javax.swing.JRadioButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -55,16 +63,34 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableEstadisticas);
 
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jRadioButton1.setText("Departamento, Provincia, Distrito");
+        radioDeProDis.setBackground(new java.awt.Color(255, 255, 255));
+        Opciones.add(radioDeProDis);
+        radioDeProDis.setText("Departamento, Provincia, Distrito");
+        radioDeProDis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioDeProDisActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jRadioButton2.setText("Departamento y Pliego");
+        radioDePli.setBackground(new java.awt.Color(255, 255, 255));
+        Opciones.add(radioDePli);
+        radioDePli.setText("Departamento y Pliego");
+        radioDePli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioDePliActionPerformed(evt);
+            }
+        });
 
-        jRadioButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jRadioButton3.setText("Departamento y Tipo de Documento");
+        radioDeDocu.setBackground(new java.awt.Color(255, 255, 255));
+        Opciones.add(radioDeDocu);
+        radioDeDocu.setText("Departamento y Tipo de Documento");
+        radioDeDocu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioDeDocuActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
@@ -87,24 +113,24 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
+                                .addComponent(radioDeProDis)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
+                                .addComponent(radioDePli)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton3))))
+                                .addComponent(radioDeDocu))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(radioDeProDis)
+                    .addComponent(radioDePli)
+                    .addComponent(radioDeDocu))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,16 +152,42 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void radioDeProDisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeProDisActionPerformed
+        // TODO add your handling code here:
+        ImplTablaHash<String, Double> resultado = controlador.montosAcumuladosPorDepartamentoProvinciaDistrito();
+    actualizarTabla(resultado);
+    }//GEN-LAST:event_radioDeProDisActionPerformed
+
+    private void radioDePliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDePliActionPerformed
+        // TODO add your handling code here:
+         ImplTablaHash<String, Double> resultado = controlador.totalesAcumuladosPorNivelDeGobiernoDepartamentoYPliego();
+    actualizarTabla(resultado);
+    }//GEN-LAST:event_radioDePliActionPerformed
+
+    private void radioDeDocuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeDocuActionPerformed
+        // TODO add your handling code here:
+        ImplTablaHash<String, Double> resultado = controlador.cantidadesYTotalesPorDepartamentoYTipoDeDocumento();
+    actualizarTabla(resultado);
+    }//GEN-LAST:event_radioDeDocuActionPerformed
+private void actualizarTabla(ImplTablaHash<String, Double> datos) {
+    DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
+    model.setRowCount(0); // Limpiar la tabla
+
+    for (Map.Entry<String, Double> entry : datos.entrySet()) {
+        model.addRow(new Object[]{entry.getKey(), entry.getValue()});
+    }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Opciones;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JRadioButton radioDeDocu;
+    private javax.swing.JRadioButton radioDePli;
+    private javax.swing.JRadioButton radioDeProDis;
+    private javax.swing.JTable tableEstadisticas;
     // End of variables declaration//GEN-END:variables
 }

@@ -72,9 +72,7 @@ public class ServiciosAcceso implements IAccesoSistema {
 
     @Override
     public void cerrarSesion(Usuario usuario) {
-        // Este método puede gestionarse de diversas formas dependiendo de cómo
-        // se maneje la sesión en la aplicación. Aquí, simplemente lo dejamos como
-        // una operación que podría registrar el cierre de sesión o similar.
+      
         System.out.println("Sesión cerrada para el usuario: " + usuario.getNombreUsuario());
     }
 }

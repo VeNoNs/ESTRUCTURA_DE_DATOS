@@ -144,7 +144,7 @@ public class ControllerAcrededores implements IControllerAcrededores {
         return resultados;
     }
 
-   public void exportarACSV(ImplListaEnlazada<Acrededores> lista, String filePath) {
+    public void exportarACSV(ImplListaEnlazada<Acrededores> lista, String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
             // Escribir cabecera
             writer.append("RUC,RAZON_SOCIAL,REMYPE_DEPARTAMENTO,REMYPE_PROVINCIA,REMYPE_DISTRITO,DOMICILIO_FISCAL,APP_INFORMATICO_DEMANDAS,SIAF,ESTADO_DEUDA,TIPO_DOCUMENTO,DOC_DEVEN_O_SENTEN_JUDI,MONTO_DEUDA,DESC_NIVEL_GOBIERNO,DESC_SECTOR,DESC_PLIEGO,SEC_EJEC,DESC_EJECUTORA,OBSERVACION_GLOSA\n");
@@ -162,9 +162,8 @@ public class ControllerAcrededores implements IControllerAcrededores {
         }
     }
 
-
     // Método para exportar la tabla a PDF
-  public void exportarAPDF(ImplListaEnlazada<Acrededores> lista, String filePath) {
+    public void exportarAPDF(ImplListaEnlazada<Acrededores> lista, String filePath) {
         Document document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
@@ -184,6 +183,7 @@ public class ControllerAcrededores implements IControllerAcrededores {
             e.printStackTrace();
         }
     }
+
     public ImplListaEnlazada<String> obtenerDepartamentos() {
         ImplListaEnlazada<String> departamentos = new ImplListaEnlazada<>();
         Nodo<Acrededores> actual = listaAcrededores.getCabeza();
@@ -305,6 +305,61 @@ public class ControllerAcrededores implements IControllerAcrededores {
         lista.modificar(derecha, temp);
 
         return i + 1;
+    }
+//METODOS PARA LA PARTE DE ESTADISTICAS
+
+    public ImplTablaHash<String, Double> montosAcumuladosPorDepartamentoProvinciaDistrito() {
+        ImplTablaHash<String, Double> resultado = new ImplTablaHash<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String key = acredor.getRemypeDepartamento() + "-" + acredor.getRemypeProvincia() + "-" + acredor.getRemypeDistrito();
+            Double montoActual = resultado.get(key);
+            if (montoActual == null) {
+                resultado.put(key, acredor.getMontoDeuda());
+            } else {
+                resultado.put(key, montoActual + acredor.getMontoDeuda());
+            }
+            actual = actual.getSiguiente();
+        }
+        return resultado;
+    }
+
+    public ImplTablaHash<String, Double> totalesAcumuladosPorNivelDeGobiernoDepartamentoYPliego() {
+        ImplTablaHash<String, Double> resultado = new ImplTablaHash<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String key = acredor.getDescNivelGobierno() + "-" + acredor.getRemypeDepartamento() + "-" + acredor.getDescPliego();
+            Double montoActual = resultado.get(key);
+            if (montoActual == null) {
+                resultado.put(key, acredor.getMontoDeuda());
+            } else {
+                resultado.put(key, montoActual + acredor.getMontoDeuda());
+            }
+            actual = actual.getSiguiente();
+        }
+        return resultado;
+    }
+
+    public ImplTablaHash<String, Double> cantidadesYTotalesPorDepartamentoYTipoDeDocumento() {
+        ImplTablaHash<String, Double> resultado = new ImplTablaHash<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            String key = acredor.getRemypeDepartamento() + "-" + acredor.getTipoDocumento();
+            Double montoActual = resultado.get(key);
+            if (montoActual == null) {
+                resultado.put(key, acredor.getMontoDeuda());
+            } else {
+                resultado.put(key, montoActual + acredor.getMontoDeuda());
+            }
+            actual = actual.getSiguiente();
+        }
+        return resultado;
     }
 
 }

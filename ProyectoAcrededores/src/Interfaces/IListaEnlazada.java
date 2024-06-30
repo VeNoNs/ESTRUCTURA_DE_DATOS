@@ -11,8 +11,12 @@ import Models.Nodo;
  * @author Frank
  */
 public interface IListaEnlazada<T> {
-    public void insertar(T dato, int posicion);
-    public T retirar(int posicion);
-    public Nodo<T> buscar(T dato);
-    public void imprimirLista();
+    void insertar(T dato, int posicion);
+    T retirar(int posicion);
+    void imprimirLista();
+    Nodo<T> buscar(T dato);
+    boolean contiene(T dato);
+    T obtener(int posicion);
+    void modificar(int posicion, T nuevoDato);
+    int getTamaño();
 }
