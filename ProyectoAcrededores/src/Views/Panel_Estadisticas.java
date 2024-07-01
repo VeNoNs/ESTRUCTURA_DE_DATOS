@@ -19,7 +19,11 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
@@ -35,39 +39,32 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
     public Panel_Estadisticas() {
         initComponents();
         controlador = new ControllerAcrededores();
-        showPieChart();
+        showBarChart();
     }
 
-    public void showPieChart() {
-
-        //create dataset
-        DefaultPieDataset barDataset = new DefaultPieDataset();
-
-        barDataset.setValue("Arequipa", 50);
-        barDataset.setValue("Islay", 10);
-        barDataset.setValue("Castilla", 30);
-        barDataset.setValue("Camaná", 10);
-
-        //create chart
-        JFreeChart piechart = ChartFactory.createPieChart("Arequipa", barDataset, false, true, false);//explain
-
-        PiePlot piePlot = (PiePlot) piechart.getPlot();
-
-        //changing pie chart blocks colors
-        piePlot.setSectionPaint("Arequipa", new Color(255, 255, 102));
-        piePlot.setSectionPaint("Islay", new Color(102, 255, 102));
-        piePlot.setSectionPaint("Castilla", new Color(255, 102, 153));
-        piePlot.setSectionPaint("Camaná", new Color(0, 204, 204));
-
-        piePlot.setBackgroundPaint(Color.white);
-
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-
+    public void showBarChart(){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(200, "Amount", "january");
+        dataset.setValue(150, "Amount", "february");
+        dataset.setValue(18, "Amount", "march");
+        dataset.setValue(100, "Amount", "april");
+        dataset.setValue(80, "Amount", "may");
+        dataset.setValue(250, "Amount", "june");
+        
+        JFreeChart chart = ChartFactory.createBarChart("contribution","monthly","amount", 
+                dataset, PlotOrientation.VERTICAL, false,true,false);
+        
+        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        //categoryPlot.setRangeGridlinePaint(Color.BLUE);
+        categoryPlot.setBackgroundPaint(Color.WHITE);
+        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
+        Color clr3 = new Color(204,0,51);
+        renderer.setSeriesPaint(0, clr3);
+        
+        ChartPanel barpChartPanel = new ChartPanel(chart);
         panelBarChart.removeAll();
-        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
-        panelBarChart.validate();
-
+        panelBarChart.add(barpChartPanel, BorderLayout.CENTER);
+        panelBarChart.validate();       
     }
 
     /**
@@ -172,20 +169,22 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(departamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(radioDePli)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioDeProDis)
                                 .addGap(18, 18, 18)
-                                .addComponent(radioDeDocu))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(115, 115, 115)))))
+                                .addComponent(radioDeDocu)))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(115, 115, 115)))
+                    .addComponent(radioDePli))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -194,10 +193,9 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioDeProDis)
-                    .addComponent(radioDeDocu))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioDePli)
-                .addGap(18, 18, 18)
+                    .addComponent(radioDeDocu)
+                    .addComponent(radioDePli))
+                .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(departamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -208,7 +206,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                         .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -238,7 +236,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
     private void radioDeDocuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeDocuActionPerformed
         // TODO add your handling code here:
         ImplTablaHash<String, Double> resultado = controlador.cantidadesYTotalesPorDepartamentoYTipoDeDocumento();
-        actualizarTabla(resultado);
+        actualizarTabla(resultado);       
     }//GEN-LAST:event_radioDeDocuActionPerformed
 
     private void departamentoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departamentoFiltroActionPerformed
@@ -261,6 +259,8 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
 
         // Actualizar la tabla con los resultados filtrados
         actualizarTabla(resultado);
+        
+        actualizarBarChart(resultado, departamentoSeleccionado);
     }//GEN-LAST:event_departamentoFiltroActionPerformed
 
     private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
@@ -302,6 +302,30 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         for (Map.Entry<String, Double> entry : datos.entrySet()) {
             model.addRow(new Object[]{entry.getKey(), entry.getValue()});
         }
+    }
+    
+    private void actualizarBarChart(ImplTablaHash<String, Double> datos, String departamento) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for (Map.Entry<String, Double> entry : datos.entrySet()) {
+            String[] partes = entry.getKey().split("-");
+            String provinciaDistrito = partes[1] + "-" + partes[2];
+            dataset.setValue(entry.getValue(), "Deuda", provinciaDistrito);
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart("Deuda en " + departamento, "Provincia-Distrito", "Monto", 
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+
+        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        categoryPlot.setBackgroundPaint(Color.WHITE);
+        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
+        Color clr3 = new Color(204, 0, 51);
+        renderer.setSeriesPaint(0, clr3);
+
+        ChartPanel barChartPanel = new ChartPanel(chart);
+        panelBarChart.removeAll();
+        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
+        panelBarChart.validate();
     }
 
 
