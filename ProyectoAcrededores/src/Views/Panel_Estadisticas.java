@@ -5,10 +5,16 @@
 package Views;
 
 import Controller.ControllerAcrededores;
+import Controller.ImplListaEnlazada;
 import Controller.ImplTablaHash;
+import Interfaces.IControllerAcrededores;
+import Models.Acrededores;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
 import java.util.Map;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,6 +29,8 @@ import org.jfree.data.general.DefaultPieDataset;
 public class Panel_Estadisticas extends javax.swing.JPanel {
 
     private ControllerAcrededores controlador;
+     IControllerAcrededores controllerAcrededores = new ControllerAcrededores();
+
 
     public Panel_Estadisticas() {
         initComponents();
@@ -145,6 +153,11 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         btnExportarPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-register-20.png"))); // NOI18N
         btnExportarPDF.setText("Descargar PDF");
         btnExportarPDF.setBorder(null);
+        btnExportarPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarPDFActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -249,6 +262,39 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         // Actualizar la tabla con los resultados filtrados
         actualizarTabla(resultado);
     }//GEN-LAST:event_departamentoFiltroActionPerformed
+
+    private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
+       JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Guardar como PDF");
+    
+    int userSelection = fileChooser.showSaveDialog(this);
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File fileToSave = fileChooser.getSelectedFile();
+        String filePath = fileToSave.getAbsolutePath();
+        
+        if (!filePath.endsWith(".pdf")) {
+            filePath += ".pdf";
+        }
+        
+        // Obtener los datos actuales de la tabla
+        DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
+        ImplListaEnlazada<Acrededores> datosActuales = new ImplListaEnlazada<>();
+
+        // Recorrer la tabla y agregar los datos a la lista enlazada
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String lugar = (String) model.getValueAt(i, 0);
+            Double deuda = (Double) model.getValueAt(i, 1);
+            Acrededores acreedor = new Acrededores(lugar, deuda); // Crear objeto Acrededores según tus datos
+            datosActuales.insertar(acreedor, datosActuales.getTamaño());
+        }
+
+        // Llamar al método de exportación a PDF del controlador
+        controllerAcrededores.exportarAPDF(datosActuales, filePath);
+
+        // Confirmar al usuario que se ha exportado el archivo
+        JOptionPane.showMessageDialog(this, "Tabla exportada correctamente a PDF.", "Exportación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }//GEN-LAST:event_btnExportarPDFActionPerformed
     private void actualizarTabla(ImplTablaHash<String, Double> datos) {
         DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
         model.setRowCount(0); // Limpiar la tabla

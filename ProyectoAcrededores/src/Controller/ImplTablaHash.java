@@ -3,7 +3,6 @@ package Controller;
 import Interfaces.IListaEnlazada;
 import Interfaces.ITablasHash;
 import Models.HashNode;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -130,17 +129,6 @@ public class ImplTablaHash<K, V> implements ITablasHash<K, V> {
             }
         }
     }
-
-    /*public Set<Map.Entry<K, V>> entrySet() {
-        Set<Map.Entry<K, V>> set = new HashSet<>();
-        for (HashNode<K, V> node : table) {
-            while (node != null) {
-                set.add(node.toEntry()); // Usar el método toEntry
-                node = node.getNext();
-            }
-        }
-        return set;
-    }*/
     
     public Set<Map.Entry<K, V>> entrySet() {
         Set<Map.Entry<K, V>> set = new TreeSet<>((e1, e2) -> ((Comparable<K>) e1.getKey()).compareTo(e2.getKey()));

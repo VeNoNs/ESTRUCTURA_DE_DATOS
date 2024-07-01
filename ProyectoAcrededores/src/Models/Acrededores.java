@@ -50,6 +50,11 @@ public class Acrededores {
         this.observacionGlosa = observacionGlosa;
     }
 
+    public Acrededores(String lugar, Double deuda) {
+         this.remypeDepartamento = lugar;
+        this.montoDeuda = deuda;
+    }
+
     public String getRuc() {
         return ruc;
     }
