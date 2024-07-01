@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="Opciones">
     </Component>
@@ -48,7 +48,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" min="-2" pref="123" max="-2" attributes="0"/>
+                                  <Component id="departamentoFiltro" min="-2" pref="123" max="-2" attributes="0"/>
                               </Group>
                               <Component id="radioDePli" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
@@ -81,7 +81,7 @@
                   <Component id="radioDePli" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="departamentoFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
@@ -106,8 +106,8 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="2" rowCount="4">
-                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                    <Column editable="true" title="Lugar" type="java.lang.Object"/>
+                    <Column editable="true" title="Deuda" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -173,7 +173,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioDeDocuActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="departamentoFiltro">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -182,17 +182,41 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="25">
+                <StringItem index="0" value="AMAZONAS"/>
+                <StringItem index="1" value="ANCASH"/>
+                <StringItem index="2" value="APURIMAC"/>
+                <StringItem index="3" value="AREQUIPA"/>
+                <StringItem index="4" value="AYACUCHO"/>
+                <StringItem index="5" value="CAJAMARCA"/>
+                <StringItem index="6" value="CALLAO"/>
+                <StringItem index="7" value="CUSCO"/>
+                <StringItem index="8" value="HUANCAVELICA"/>
+                <StringItem index="9" value="HUANUCO"/>
+                <StringItem index="10" value="ICA"/>
+                <StringItem index="11" value="JUNIN"/>
+                <StringItem index="12" value="LA LIBERTAD"/>
+                <StringItem index="13" value="LAMBAYEQUE"/>
+                <StringItem index="14" value="LIMA"/>
+                <StringItem index="15" value="LORETO"/>
+                <StringItem index="16" value="MADRE DE DIOS"/>
+                <StringItem index="17" value="MOQUEGUA"/>
+                <StringItem index="18" value="PASCO"/>
+                <StringItem index="19" value="PIURA"/>
+                <StringItem index="20" value="PUNO"/>
+                <StringItem index="21" value="SAN MARTIN"/>
+                <StringItem index="22" value="TACNA"/>
+                <StringItem index="23" value="TUMBES"/>
+                <StringItem index="24" value="UCAYALI"/>
               </StringArray>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="departamentoFiltroActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

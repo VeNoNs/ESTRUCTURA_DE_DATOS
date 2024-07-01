@@ -16,57 +16,51 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
-
 /**
  *
  * @author Andre H
  */
 public class Panel_Estadisticas extends javax.swing.JPanel {
-    
+
     private ControllerAcrededores controlador;
-    
+
     public Panel_Estadisticas() {
         initComponents();
         controlador = new ControllerAcrededores();
         showPieChart();
     }
-    
-     public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-    
-      barDataset.setValue( "Arequipa" , 50  );  
-      barDataset.setValue( "Islay" ,10  );   
-      barDataset.setValue( "Castilla" , 30 );    
-      barDataset.setValue( "Camaná" , 10 );  
 
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Arequipa",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-        piePlot.setSectionPaint("Arequipa", new Color(255,255,102));
-        piePlot.setSectionPaint("Islay", new Color(102,255,102));
-        piePlot.setSectionPaint("Castilla", new Color(255,102,153));
-        piePlot.setSectionPaint("Camaná", new Color(0,204,204));
-      
-       
+    public void showPieChart() {
+
+        //create dataset
+        DefaultPieDataset barDataset = new DefaultPieDataset();
+
+        barDataset.setValue("Arequipa", 50);
+        barDataset.setValue("Islay", 10);
+        barDataset.setValue("Castilla", 30);
+        barDataset.setValue("Camaná", 10);
+
+        //create chart
+        JFreeChart piechart = ChartFactory.createPieChart("Arequipa", barDataset, false, true, false);//explain
+
+        PiePlot piePlot = (PiePlot) piechart.getPlot();
+
+        //changing pie chart blocks colors
+        piePlot.setSectionPaint("Arequipa", new Color(255, 255, 102));
+        piePlot.setSectionPaint("Islay", new Color(102, 255, 102));
+        piePlot.setSectionPaint("Castilla", new Color(255, 102, 153));
+        piePlot.setSectionPaint("Camaná", new Color(0, 204, 204));
+
         piePlot.setBackgroundPaint(Color.white);
-        
+
         //create chartPanel to display chart(graph)
         ChartPanel barChartPanel = new ChartPanel(piechart);
-        
+
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
-        
+
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +78,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         radioDeProDis = new javax.swing.JRadioButton();
         radioDePli = new javax.swing.JRadioButton();
         radioDeDocu = new javax.swing.JRadioButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        departamentoFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         panelBarChart = new javax.swing.JPanel();
 
@@ -98,7 +92,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Lugar", "Deuda"
             }
         ));
         jScrollPane1.setViewportView(tableEstadisticas);
@@ -130,10 +124,15 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(null);
+        departamentoFiltro.setBackground(new java.awt.Color(255, 255, 255));
+        departamentoFiltro.setForeground(new java.awt.Color(0, 0, 0));
+        departamentoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AMAZONAS", "ANCASH", "APURIMAC", "AREQUIPA", "AYACUCHO", "CAJAMARCA", "CALLAO", "CUSCO", "HUANCAVELICA", "HUANUCO", "ICA", "JUNIN", "LA LIBERTAD", "LAMBAYEQUE", "LIMA", "LORETO", "MADRE DE DIOS", "MOQUEGUA", "PASCO", "PIURA", "PUNO", "SAN MARTIN", "TACNA", "TUMBES", "UCAYALI" }));
+        departamentoFiltro.setBorder(null);
+        departamentoFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departamentoFiltroActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Elegir Departamento");
 
@@ -151,7 +150,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(departamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(radioDePli)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioDeProDis)
@@ -175,7 +174,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                 .addComponent(radioDePli)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(departamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,33 +198,55 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
     private void radioDeProDisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeProDisActionPerformed
         // TODO add your handling code here:
         ImplTablaHash<String, Double> resultado = controlador.montosAcumuladosPorDepartamentoProvinciaDistrito();
-    actualizarTabla(resultado);
+        actualizarTabla(resultado);
     }//GEN-LAST:event_radioDeProDisActionPerformed
 
     private void radioDePliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDePliActionPerformed
         // TODO add your handling code here:
-         ImplTablaHash<String, Double> resultado = controlador.totalesAcumuladosPorNivelDeGobiernoDepartamentoYPliego();
-    actualizarTabla(resultado);
+        ImplTablaHash<String, Double> resultado = controlador.totalesAcumuladosPorNivelDeGobiernoDepartamentoYPliego();
+        actualizarTabla(resultado);
     }//GEN-LAST:event_radioDePliActionPerformed
 
     private void radioDeDocuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDeDocuActionPerformed
         // TODO add your handling code here:
         ImplTablaHash<String, Double> resultado = controlador.cantidadesYTotalesPorDepartamentoYTipoDeDocumento();
-    actualizarTabla(resultado);
+        actualizarTabla(resultado);
     }//GEN-LAST:event_radioDeDocuActionPerformed
-private void actualizarTabla(ImplTablaHash<String, Double> datos) {
-    DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
-    model.setRowCount(0); // Limpiar la tabla
 
-    for (Map.Entry<String, Double> entry : datos.entrySet()) {
-        model.addRow(new Object[]{entry.getKey(), entry.getValue()});
+    private void departamentoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departamentoFiltroActionPerformed
+        // TODO add your handling code here:
+        String departamentoSeleccionado = (String) departamentoFiltro.getSelectedItem();
+
+        // Obtener los datos actuales de la tabla
+        ImplTablaHash<String, Double> datosActuales = new ImplTablaHash<>();
+        DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
+        int rowCount = model.getRowCount();
+
+        for (int i = 0; i < rowCount; i++) {
+            String lugar = (String) model.getValueAt(i, 0);
+            Double deuda = (Double) model.getValueAt(i, 1);
+            datosActuales.put(lugar, deuda);
+        }
+
+        // Filtrar los datos por el departamento seleccionado
+        ImplTablaHash<String, Double> resultado = controlador.filtrarPorDepartamento(datosActuales, departamentoSeleccionado);
+
+        // Actualizar la tabla con los resultados filtrados
+        actualizarTabla(resultado);
+    }//GEN-LAST:event_departamentoFiltroActionPerformed
+    private void actualizarTabla(ImplTablaHash<String, Double> datos) {
+        DefaultTableModel model = (DefaultTableModel) tableEstadisticas.getModel();
+        model.setRowCount(0); // Limpiar la tabla
+
+        for (Map.Entry<String, Double> entry : datos.entrySet()) {
+            model.addRow(new Object[]{entry.getKey(), entry.getValue()});
+        }
     }
-}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Opciones;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> departamentoFiltro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

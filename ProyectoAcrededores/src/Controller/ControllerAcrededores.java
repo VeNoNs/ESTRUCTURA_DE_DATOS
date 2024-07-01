@@ -23,17 +23,21 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Map;
 
 public class ControllerAcrededores implements IControllerAcrededores {
 
     private ImplListaEnlazada<Acrededores> listaAcrededores;
     private ControllerCSV controllerCSV;
     private String filePath = "D:\\ACREEDORES.csv";
+    private ImplTablaHash<String, Double> datos;
 
     public ControllerAcrededores() {
         this.listaAcrededores = new ImplListaEnlazada<>();
+        datos = new ImplTablaHash<>();
         this.controllerCSV = new ControllerCSV(filePath);
         cargarAcrededores();
+
     }
 
     @Override
@@ -362,4 +366,15 @@ public class ControllerAcrededores implements IControllerAcrededores {
         return resultado;
     }
 
+    public ImplTablaHash<String, Double> filtrarPorDepartamento(ImplTablaHash<String, Double> datos, String departamento) {
+        ImplTablaHash<String, Double> resultado = new ImplTablaHash<>();
+
+        for (Map.Entry<String, Double> entry : datos.entrySet()) {
+            if (entry.getKey().contains(departamento)) {
+                resultado.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return resultado;
+    }
 }
