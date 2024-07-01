@@ -196,6 +196,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
                 btnBuscarMouseClicked(evt);
             }
         });
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnExportarPDF.setBackground(new java.awt.Color(255, 161, 1));
         btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -253,6 +258,11 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         btnActualizarTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnActualizarTablaMouseClicked(evt);
+            }
+        });
+        btnActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarTablaActionPerformed(evt);
             }
         });
 
@@ -488,6 +498,14 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
             controllerAcrededores.exportarACSV(listaExportar, filePath); 
         }
     }//GEN-LAST:event_btnExportarCSVMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActualizarTablaActionPerformed
     private void actualizarTabla(ImplListaEnlazada<Acrededores> resultados) {
         // Define el modelo de la tabla
         listaExportar = resultados;

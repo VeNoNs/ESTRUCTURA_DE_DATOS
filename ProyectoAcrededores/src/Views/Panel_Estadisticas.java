@@ -6,8 +6,15 @@ package Views;
 
 import Controller.ControllerAcrededores;
 import Controller.ImplTablaHash;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 
 
 /**
@@ -15,17 +22,47 @@ import javax.swing.table.DefaultTableModel;
  * @author Andre H
  */
 public class Panel_Estadisticas extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Panel_Estadisticas
-     */
+    
     private ControllerAcrededores controlador;
     
     public Panel_Estadisticas() {
         initComponents();
         controlador = new ControllerAcrededores();
+        showPieChart();
     }
     
+     public void showPieChart(){
+        
+        //create dataset
+      DefaultPieDataset barDataset = new DefaultPieDataset( );
+    
+      barDataset.setValue( "Arequipa" , 50  );  
+      barDataset.setValue( "Islay" ,10  );   
+      barDataset.setValue( "Castilla" , 30 );    
+      barDataset.setValue( "Camaná" , 10 );  
+
+      //create chart
+       JFreeChart piechart = ChartFactory.createPieChart("Arequipa",barDataset, false,true,false);//explain
+      
+        PiePlot piePlot =(PiePlot) piechart.getPlot();
+      
+       //changing pie chart blocks colors
+        piePlot.setSectionPaint("Arequipa", new Color(255,255,102));
+        piePlot.setSectionPaint("Islay", new Color(102,255,102));
+        piePlot.setSectionPaint("Castilla", new Color(255,102,153));
+        piePlot.setSectionPaint("Camaná", new Color(0,204,204));
+      
+       
+        piePlot.setBackgroundPaint(Color.white);
+        
+        //create chartPanel to display chart(graph)
+        ChartPanel barChartPanel = new ChartPanel(piechart);
+        
+        panelBarChart.removeAll();
+        panelBarChart.add(barChartPanel, BorderLayout.CENTER);
+        panelBarChart.validate();
+        
+    }
     
     
     
@@ -49,18 +86,19 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         radioDeDocu = new javax.swing.JRadioButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        panelBarChart = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         tableEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
         ));
         jScrollPane1.setViewportView(tableEstadisticas);
@@ -99,6 +137,8 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
 
         jLabel1.setText("Elegir Departamento");
 
+        panelBarChart.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,32 +152,36 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(radioDePli)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioDeProDis)
                                 .addGap(18, 18, 18)
-                                .addComponent(radioDePli)
-                                .addGap(18, 18, 18)
                                 .addComponent(radioDeDocu))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(131, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioDeProDis)
-                    .addComponent(radioDePli)
                     .addComponent(radioDeDocu))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioDePli)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -185,6 +229,7 @@ private void actualizarTabla(ImplTablaHash<String, Double> datos) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelBarChart;
     private javax.swing.JRadioButton radioDeDocu;
     private javax.swing.JRadioButton radioDePli;
     private javax.swing.JRadioButton radioDeProDis;
