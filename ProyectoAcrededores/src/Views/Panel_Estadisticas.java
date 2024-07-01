@@ -81,6 +81,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
         departamentoFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         panelBarChart = new javax.swing.JPanel();
+        btnExportarPDF = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -138,6 +139,13 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
 
         panelBarChart.setLayout(new java.awt.BorderLayout());
 
+        btnExportarPDF.setBackground(new java.awt.Color(255, 161, 1));
+        btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarPDF.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-register-20.png"))); // NOI18N
+        btnExportarPDF.setText("Descargar PDF");
+        btnExportarPDF.setBorder(null);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -160,7 +168,11 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                         .addGap(16, 16, 16)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -177,9 +189,12 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
                     .addComponent(departamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -246,6 +261,7 @@ public class Panel_Estadisticas extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Opciones;
+    private javax.swing.JButton btnExportarPDF;
     private javax.swing.JComboBox<String> departamentoFiltro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
