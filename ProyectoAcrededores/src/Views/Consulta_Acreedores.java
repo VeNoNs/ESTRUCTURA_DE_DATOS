@@ -4,11 +4,13 @@
  */
 package Views;
 
+import Controller.ArbolBinarioImpl;
 import Controller.ControllerAcrededores;
 import Controller.ImplListaEnlazada;
 import Interfaces.IControllerAcrededores;
 import Models.Acrededores;
 import Models.Nodo;
+import Models.TreeNode;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -28,11 +30,16 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     IControllerAcrededores controllerAcrededores = new ControllerAcrededores();
     private ImplListaEnlazada<Acrededores> listaAcrededoresFiltrada;
     private ImplListaEnlazada<Acrededores> listaExportar;
+    private ArbolBinarioImpl<Acrededores> arbolPorRUC;
 
     public Consulta_Acreedores() {
         initComponents();
         cargarDepartamentos();
         agregarListeners();
+        
+        // Inicializar listaAcrededoresFiltrada con datos
+        listaAcrededoresFiltrada = controllerAcrededores.buscar("RUC", ""); // O algún criterio para obtener la lista inicial
+        arbolPorRUC = generarArbolDesdeListaPorRUC(listaAcrededoresFiltrada);
 
         selectDepartamento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -123,6 +130,28 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         }
         selectEjecutora.setSelectedIndex(0); // Selecciona la opción "Seleccionar"
     }
+    
+    private ArbolBinarioImpl<Acrededores> generarArbolDesdeListaPorRUC(ImplListaEnlazada<Acrededores> lista) {
+        return controllerAcrededores.generarArbolDesdeListaPorRUC(lista);
+        }
+
+    private ImplListaEnlazada<Acrededores> buscarEnArbolPorRUC(ArbolBinarioImpl<Acrededores> arbol, String ruc) {
+        ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
+        buscarEnNodo(arbol.getRaiz(), ruc, resultados);
+        return resultados;
+    }
+    private void buscarEnNodo(TreeNode<Acrededores> nodo, String rucParcial, ImplListaEnlazada<Acrededores> resultados) {
+        if (nodo == null) return;
+
+        Acrededores acredor = nodo.getValor();
+        if (acredor.getRuc().contains(rucParcial)) {
+            resultados.insertar(acredor, resultados.getTamaño());
+        }
+
+        buscarEnNodo(nodo.getHojaIzquierda(), rucParcial, resultados);
+        buscarEnNodo(nodo.getHojaDerecha(), rucParcial, resultados);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -394,7 +423,7 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
     }//GEN-LAST:event_txtRUCActionPerformed
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        // TODO add your handling code here:
+        /*// TODO add your handling code here:
         String campo = ""; // Inicializa una variable para el campo de búsqueda
         String valor = ""; // Inicializa una variable para el valor de búsqueda
 
@@ -420,7 +449,38 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         } else {
             // Muestra un mensaje de error si no se especifica ningún campo de búsqueda
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }*/
+        String campo = ""; // Inicializa una variable para el campo de búsqueda
+        String valor = ""; // Inicializa una variable para el valor de búsqueda
+
+        // Determina cuál campo se va a buscar y obtiene su valor
+        if (!txtRUC.getText().isEmpty()) {
+            campo = "RUC";
+            valor = txtRUC.getText();
+        } else if (!txtRazonSocial.getText().isEmpty()) {
+            campo = "Razón Social";
+            valor = txtRazonSocial.getText();
+        } else if (!txtPliego.getText().isEmpty()) {
+            campo = "Pliego";
+            valor = txtPliego.getText();
         }
+
+        // Verifica que se haya especificado un campo de búsqueda
+        if (!campo.isEmpty() && !valor.isEmpty()) {
+            // Llama al método buscar del controlador
+            if (campo.equals("RUC")) {
+                listaAcrededoresFiltrada = buscarEnArbolPorRUC(arbolPorRUC, valor);
+            } else {
+                listaAcrededoresFiltrada = controllerAcrededores.buscar(campo, valor);
+            }
+
+            // Actualiza la tabla con los resultados
+            actualizarTabla(listaAcrededoresFiltrada);
+        } else {
+            // Muestra un mensaje de error si no se especifica ningún campo de búsqueda
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void selectDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectDistritoActionPerformed

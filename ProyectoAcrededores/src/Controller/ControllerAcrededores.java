@@ -14,6 +14,7 @@ import Models.Acrededores;
 import Controller.ImplListaEnlazada;
 import Models.Acrededores;
 import Models.Nodo;
+import Models.TreeNode;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -377,4 +378,46 @@ public class ControllerAcrededores implements IControllerAcrededores {
 
         return resultado;
     }
+    
+    //ARBOLES
+    
+    public ArbolBinarioImpl<Acrededores> generarArbolDesdeListaPorRUC(ImplListaEnlazada<Acrededores> listaAcrededores) {
+        ArbolBinarioImpl<Acrededores> arbol = null;
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        while (actual != null) {
+            Acrededores acredor = actual.getDato();
+            TreeNode<Acrededores> nuevoNodo = new TreeNode<>(acredor);
+            if (arbol == null) {
+                arbol = new ArbolBinarioImpl<>(acredor);
+            } else {
+                arbol.insertar(nuevoNodo);
+            }
+            actual = actual.getSiguiente();
+        }
+
+        return arbol;
+    }
+ 
+    public ImplListaEnlazada<String> obtenerRUCsDesdeArbol(ArbolBinarioImpl<Acrededores> arbol) {
+        ImplListaEnlazada<String> rucs = new ImplListaEnlazada<>();
+        obtenerRUCsDesdeNodo(arbol.getRaiz(), rucs);
+        return rucs;
+    }
+
+    private void obtenerRUCsDesdeNodo(TreeNode<Acrededores> nodo, ImplListaEnlazada<String> rucs) {
+        if (nodo == null) return;
+
+        obtenerRUCsDesdeNodo(nodo.getHojaIzquierda(), rucs);
+
+        Acrededores acredor = nodo.getValor();
+        String ruc = acredor.getRuc();
+        if (!rucs.contiene(ruc)) {
+            rucs.insertar(ruc, rucs.getTamaño());
+        }
+        obtenerRUCsDesdeNodo(nodo.getHojaDerecha(), rucs);
+    }
+    
+    
+    
 }

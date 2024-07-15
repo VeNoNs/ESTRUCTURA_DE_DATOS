@@ -8,7 +8,7 @@ package Models;
  *
  * @author Frank
  */
-public class Acrededores {
+public class Acrededores implements Comparable<Acrededores> {
 
     private String ruc;
     private String razonSocial;
@@ -249,5 +249,9 @@ public class Acrededores {
                 + ", descEjecutora='" + descEjecutora + '\''
                 + ", observacionGlosa='" + observacionGlosa + '\''
                 + '}';
+    }
+    @Override
+    public int compareTo(Acrededores otro) {
+        return this.remypeDepartamento.compareTo(otro.remypeDepartamento);
     }
 }

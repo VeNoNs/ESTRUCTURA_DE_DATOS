@@ -1,5 +1,6 @@
 package Interfaces;
 
+import Controller.ArbolBinarioImpl;
 import Controller.ImplListaEnlazada;
 import Models.Acrededores;
 
@@ -38,4 +39,6 @@ public interface IControllerAcrededores {
     public void exportarACSV(ImplListaEnlazada<Acrededores> listaAcrededoresFiltrada, String filePath);
 
     public void exportarAPDF(ImplListaEnlazada<Acrededores> listaAcrededoresFiltrada, String filePath);
+    
+    public ArbolBinarioImpl<Acrededores> generarArbolDesdeListaPorRUC(ImplListaEnlazada<Acrededores> lista);
 }
