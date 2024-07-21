@@ -41,4 +41,6 @@ public interface IControllerAcrededores {
     public void exportarAPDF(ImplListaEnlazada<Acrededores> listaAcrededoresFiltrada, String filePath);
     
     public ArbolBinarioImpl<Acrededores> generarArbolDesdeListaPorRUC(ImplListaEnlazada<Acrededores> lista);
+    
+    public ImplListaEnlazada<Acrededores> buscarEnArbolPorRUC(ArbolBinarioImpl<Acrededores> arbol, String ruc);
 }

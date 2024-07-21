@@ -24,18 +24,21 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Comparator;
 import java.util.Map;
 
 public class ControllerAcrededores implements IControllerAcrededores {
 
     private ImplListaEnlazada<Acrededores> listaAcrededores;
     private ControllerCSV controllerCSV;
-    private String filePath = "D:\\ACREEDORES.csv";
+    private String filePath = "C:\\Frank\\Proyectos\\ESTRUCTURA_DE_DATOS\\ACREEDORES.csv";
     private ImplTablaHash<String, Double> datos;
+    private ImplPila<Acrededores> pilaPliegos;
 
     public ControllerAcrededores() {
         this.listaAcrededores = new ImplListaEnlazada<>();
         datos = new ImplTablaHash<>();
+        pilaPliegos = new ImplPila<>();
         this.controllerCSV = new ControllerCSV(filePath);
         cargarAcrededores();
 
@@ -75,7 +78,7 @@ public class ControllerAcrededores implements IControllerAcrededores {
         listaAcrededores.imprimirLista();
     }
 
-    public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
+    /*public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
         ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
         Nodo<Acrededores> actual = listaAcrededores.getCabeza();
 
@@ -102,6 +105,89 @@ public class ControllerAcrededores implements IControllerAcrededores {
         }
         resultados.imprimirLista();
         return resultados;
+    }*/
+    public ImplListaEnlazada<Acrededores> buscar(String campo, String valor) {
+        ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
+        Nodo<Acrededores> actual = listaAcrededores.getCabeza();
+
+        switch (campo) {
+            case "RUC":
+                System.out.println("Buscando por RUC...");
+                while (actual != null) {
+                    Acrededores acredor = actual.getDato();
+                    if (acredor.getRuc().startsWith(valor)) {
+                        resultados.insertar(acredor, resultados.getTamaño());
+                    }
+                    actual = actual.getSiguiente();
+                }
+                break;
+
+            case "Razón Social":
+                System.out.println("Buscando por Razón Social...");
+                // Ordenamos la lista por razón social
+                listaAcrededores.ordenarLista(Comparator.comparing(Acrededores::getRazonSocial));
+
+                // Imprimimos la lista ordenada para verificar
+                System.out.println("Lista ordenada por Razón Social:");
+                listaAcrededores.imprimirLista();
+
+                // Realizamos la búsqueda binaria
+                Acrededores dummyRazonSocial = new Acrededores();
+                dummyRazonSocial.setRazonSocial(valor);
+                int index = listaAcrededores.buscarBinarioEnLista(Comparator.comparing(Acrededores::getRazonSocial), dummyRazonSocial);
+
+                if (index != -1) {
+                    resultados.insertar(listaAcrededores.obtener(index), resultados.getTamaño());
+                } else {
+                    System.out.println("Razón Social no encontrada.");
+                }
+                break;
+
+            case "Pliego":
+                System.out.println("Buscando por Pliego...");
+                // Utilizamos una pila para almacenar los resultados de pliegos coincidentes
+                ImplPila<Acrededores> pilaPliegos = new ImplPila<>();
+                while (actual != null) {
+                    Acrededores acredor = actual.getDato();
+                    if (acredor.getDescPliego().startsWith(valor)) {
+                        pilaPliegos.push(acredor);
+                    }
+                    actual = actual.getSiguiente();
+                }
+
+                // Imprimimos la pila para verificar
+                System.out.println("Elementos encontrados en la pila:");
+                while (!pilaPliegos.isEmpty()) {
+                    Acrededores encontrado = pilaPliegos.pop();
+                    System.out.println(encontrado);
+                    resultados.insertar(encontrado, resultados.getTamaño());
+                }
+                break;
+        }
+
+        System.out.println("Resultados:");
+        resultados.imprimirLista();
+        return resultados;
+    }
+
+    public ImplListaEnlazada<Acrededores> buscarEnArbolPorRUC(ArbolBinarioImpl<Acrededores> arbol, String ruc) {
+        ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
+        buscarEnNodo(arbol.getRaiz(), ruc, resultados);
+        return resultados;
+    }
+
+    private void buscarEnNodo(TreeNode<Acrededores> nodo, String rucParcial, ImplListaEnlazada<Acrededores> resultados) {
+        if (nodo == null) {
+            return;
+        }
+
+        Acrededores acredor = nodo.getValor();
+        if (acredor.getRuc().contains(rucParcial)) {
+            resultados.insertar(acredor, resultados.getTamaño());
+        }
+
+        buscarEnNodo(nodo.getHojaIzquierda(), rucParcial, resultados);
+        buscarEnNodo(nodo.getHojaDerecha(), rucParcial, resultados);
     }
 
     // Método para filtrar la lista de resultados
@@ -378,9 +464,8 @@ public class ControllerAcrededores implements IControllerAcrededores {
 
         return resultado;
     }
-    
+
     //ARBOLES
-    
     public ArbolBinarioImpl<Acrededores> generarArbolDesdeListaPorRUC(ImplListaEnlazada<Acrededores> listaAcrededores) {
         ArbolBinarioImpl<Acrededores> arbol = null;
         Nodo<Acrededores> actual = listaAcrededores.getCabeza();
@@ -398,7 +483,7 @@ public class ControllerAcrededores implements IControllerAcrededores {
 
         return arbol;
     }
- 
+
     public ImplListaEnlazada<String> obtenerRUCsDesdeArbol(ArbolBinarioImpl<Acrededores> arbol) {
         ImplListaEnlazada<String> rucs = new ImplListaEnlazada<>();
         obtenerRUCsDesdeNodo(arbol.getRaiz(), rucs);
@@ -406,7 +491,9 @@ public class ControllerAcrededores implements IControllerAcrededores {
     }
 
     private void obtenerRUCsDesdeNodo(TreeNode<Acrededores> nodo, ImplListaEnlazada<String> rucs) {
-        if (nodo == null) return;
+        if (nodo == null) {
+            return;
+        }
 
         obtenerRUCsDesdeNodo(nodo.getHojaIzquierda(), rucs);
 
@@ -417,7 +504,5 @@ public class ControllerAcrededores implements IControllerAcrededores {
         }
         obtenerRUCsDesdeNodo(nodo.getHojaDerecha(), rucs);
     }
-    
-    
-    
+
 }

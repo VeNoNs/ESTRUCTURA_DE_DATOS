@@ -6,6 +6,7 @@ package Controller;
 
 import Models.Nodo;
 import Interfaces.IListaEnlazada;
+import java.util.Comparator;
 
 /**
  *
@@ -13,7 +14,7 @@ import Interfaces.IListaEnlazada;
  */
 public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
 
-  private Nodo<T> cabeza;
+    private Nodo<T> cabeza;
     private int tamaño;
 
     public ImplListaEnlazada() {
@@ -90,7 +91,7 @@ public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
         }
         return null;
     }
-    
+
     public boolean contiene(T dato) {
         Nodo<T> actual = cabeza;
         while (actual != null) {
@@ -101,7 +102,7 @@ public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
         }
         return false;
     }
-    
+
     public T obtener(int posicion) {
         if (posicion < 0 || posicion >= tamaño) {
             throw new IndexOutOfBoundsException("Posición fuera de rango");
@@ -138,8 +139,65 @@ public class ImplListaEnlazada<T> implements IListaEnlazada<T> {
     public void setCabeza(Nodo<T> cabeza) {
         this.cabeza = cabeza;
     }
-    
-    
+
+    // Método para ordenar la lista usando un Comparator
+    public void ordenarLista(Comparator<T> comparador) {
+        if (tamaño > 1) {
+            boolean wasChanged;
+            do {
+                Nodo<T> actual = cabeza;
+                Nodo<T> anterior = null;
+                Nodo<T> siguiente = cabeza.getSiguiente();
+                wasChanged = false;
+
+                while (siguiente != null) {
+                    if (comparador.compare(actual.getDato(), siguiente.getDato()) > 0) {
+                        wasChanged = true;
+
+                        if (anterior != null) {
+                            Nodo<T> sig = siguiente.getSiguiente();
+                            anterior.setSiguiente(siguiente);
+                            siguiente.setSiguiente(actual);
+                            actual.setSiguiente(sig);
+                        } else {
+                            Nodo<T> sig = siguiente.getSiguiente();
+                            cabeza = siguiente;
+                            siguiente.setSiguiente(actual);
+                            actual.setSiguiente(sig);
+                        }
+
+                        anterior = siguiente;
+                        siguiente = actual.getSiguiente();
+                    } else {
+                        anterior = actual;
+                        actual = siguiente;
+                        siguiente = siguiente.getSiguiente();
+                    }
+                }
+            } while (wasChanged);
+        }
+    }
+
+    // Método para realizar la búsqueda binaria
+    public int buscarBinarioEnLista(Comparator<T> comparador, T dato) {
+        int inicio = 0;
+        int fin = tamaño - 1;
+
+        while (inicio <= fin) {
+            int medio = (inicio + fin) / 2;
+            T actual = obtener(medio);
+            int cmp = comparador.compare(actual, dato);
+
+            if (cmp == 0) {
+                return medio; // Encontrado
+            } else if (cmp < 0) {
+                inicio = medio + 1; // Buscar en el subarreglo derecho
+            } else {
+                fin = medio - 1; // Buscar en el subarreglo izquierdo
+            }
+        }
+
+        return -1; // No encontrado
+    }
+
 }
-
-

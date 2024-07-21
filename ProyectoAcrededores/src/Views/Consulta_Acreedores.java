@@ -135,22 +135,7 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         return controllerAcrededores.generarArbolDesdeListaPorRUC(lista);
         }
 
-    private ImplListaEnlazada<Acrededores> buscarEnArbolPorRUC(ArbolBinarioImpl<Acrededores> arbol, String ruc) {
-        ImplListaEnlazada<Acrededores> resultados = new ImplListaEnlazada<>();
-        buscarEnNodo(arbol.getRaiz(), ruc, resultados);
-        return resultados;
-    }
-    private void buscarEnNodo(TreeNode<Acrededores> nodo, String rucParcial, ImplListaEnlazada<Acrededores> resultados) {
-        if (nodo == null) return;
-
-        Acrededores acredor = nodo.getValor();
-        if (acredor.getRuc().contains(rucParcial)) {
-            resultados.insertar(acredor, resultados.getTamaño());
-        }
-
-        buscarEnNodo(nodo.getHojaIzquierda(), rucParcial, resultados);
-        buscarEnNodo(nodo.getHojaDerecha(), rucParcial, resultados);
-    }
+    
     
 
     /**
@@ -469,7 +454,7 @@ public class Consulta_Acreedores extends javax.swing.JPanel {
         if (!campo.isEmpty() && !valor.isEmpty()) {
             // Llama al método buscar del controlador
             if (campo.equals("RUC")) {
-                listaAcrededoresFiltrada = buscarEnArbolPorRUC(arbolPorRUC, valor);
+                listaAcrededoresFiltrada = controllerAcrededores.buscarEnArbolPorRUC(arbolPorRUC, valor);
             } else {
                 listaAcrededoresFiltrada = controllerAcrededores.buscar(campo, valor);
             }

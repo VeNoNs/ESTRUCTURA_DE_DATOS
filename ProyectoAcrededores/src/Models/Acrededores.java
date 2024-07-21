@@ -29,6 +29,11 @@ public class Acrededores implements Comparable<Acrededores> {
     private String descEjecutora;
     private String observacionGlosa;
 
+    public Acrededores() {
+    }
+
+    
+    
     public Acrededores(String ruc, String razonSocial, String remypeDepartamento, String remypeProvincia, String remypeDistrito, String domicilioFiscal, String appInformaticoDemandas, String siaf, String estadoDeuda, String tipoDocumento, String docDevenOSentenJudi, double montoDeuda, String descNivelGobierno, String descSector, String descPliego, long secEjec, String descEjecutora, String observacionGlosa) {
         this.ruc = ruc;
         this.razonSocial = razonSocial;
